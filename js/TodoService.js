@@ -41,7 +41,7 @@ export default class TodoService {
   static addItem(item) {
     return new Promise((resolve, reject) => {
       this.getDB().then(db => {
-        const requet = db
+        const request = db
           .transaction(osName, 'readwrite')
           .objectStore(osName)
           .put(item);
