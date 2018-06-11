@@ -4,7 +4,6 @@ const osName = 'todos'
 const version = 1
 
 export default class TodoService {
-
   static upgradeDB(db) {
     console.info('Creating database')
     db.createObjectStore('todos', { autoIncrement: true })
@@ -23,7 +22,6 @@ export default class TodoService {
     })
 
     request.addEventListener('error', event => {
-      console.error(event)
       reject(event)
     })
   }
@@ -38,39 +36,40 @@ export default class TodoService {
     })
   }
 
+  static getTodosStore(mode) {
+    return new Promise((resolve) => {
+      this.getDB().then(db => {
+        const store = db
+          .transaction(osName, mode)
+          .objectStore(osName)
+        resolve(store)
+      })
+    })
+  }
+
   static addItem(item) {
     return new Promise((resolve, reject) => {
-      this.getDB().then(db => {
-        const request = db
-          .transaction(osName, 'readwrite')
-          .objectStore(osName)
-          .put(item)
-
-        request.addEventListener('success', event =>
-          resolve(event.target.result)
-        )
-
-        request.addEventListener('error', event => reject(event.target.result))
-      })
+      const addItemInStore = todosStore => {
+        const request = todosStore.put(item)
+        request.onsuccess = event => resolve(event.target.result)
+        request.onerror = event => reject(event.target.result)
+      }
+      this.getTodosStore('readwrite').then(addItemInStore)
     })
   }
 
   static getList() {
     return new Promise((resolve, reject) => {
-      this.getDB().then(db => {
+      this.getTodosStore('readonly').then(todosStore => {
         const items = []
-        const request = db
-          .transaction(osName, 'readonly')
-          .objectStore(osName)
-          .openCursor()
+        const request = todosStore.openCursor()
 
-        const addItem = (event) => {
+        const addItem = event => {
           const cursor = event.target.result
-          if(cursor) {
+          if (cursor) {
             items.push(cursor.value)
             cursor.continue()
-          }
-          else {
+          } else {
             resolve(items)
           }
         }
