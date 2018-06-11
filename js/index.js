@@ -9,6 +9,18 @@ function addItemToHTML(item) {
   ul.appendChild(li)
 }
 
+function cleanInput() {
+  item.value = ''
+  item.focus()
+}
+
+function loadItems() {
+  TodoService
+    .getList()
+    .then(items => console.log(items))
+}
+loadItems()
+
 const onSubmit = (event) => {
   event.preventDefault()
   const item = event.target.item
@@ -17,8 +29,7 @@ const onSubmit = (event) => {
     .addItem(item.value)
     .then(() => {
       addItemToHTML(item.value)
-      item.value = ''
-      item.focus()
+      cleanInput()
     })
 }
 

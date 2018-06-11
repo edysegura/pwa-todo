@@ -54,4 +54,29 @@ export default class TodoService {
       })
     })
   }
+
+  static getList() {
+    return new Promise((resolve, reject) => {
+      this.getDB().then(db => {
+        const items = []
+        const request = db
+          .transaction(osName, 'readonly')
+          .objectStore(osName)
+          .openCursor()
+
+        const addItem = (event) => {
+          const cursor = event.target.result
+          if(cursor) {
+            items.push(cursor.value)
+            cursor.continue()
+          }
+          else {
+            resolve(items)
+          }
+        }
+
+        request.addEventListener('success', addItem)
+      })
+    })
+  }
 }
