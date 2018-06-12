@@ -9,7 +9,7 @@ function addItemToHTML(item) {
   ul.appendChild(li)
 }
 
-function cleanInput() {
+function cleanInput(item) {
   item.value = ''
   item.focus()
 }
@@ -29,7 +29,7 @@ const onSubmit = (event) => {
     .addItem(item.value)
     .then(() => {
       addItemToHTML(item.value)
-      cleanInput()
+      cleanInput(item)
     })
 }
 
