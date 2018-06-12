@@ -17,7 +17,7 @@ function cleanInput() {
 function loadItems() {
   TodoService
     .getList()
-    .then(items => console.log(items))
+    .then(items => items.forEach(addItemToHTML))
 }
 loadItems()
 
