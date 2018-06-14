@@ -2,6 +2,10 @@
 
 A simpler webapp To-Do List to demonstrate the PWA concepts with IndexedDB and offline support.
 
+## Live demo
+
+- [http://edysegura.github.io/pwa-todo](http://edysegura.github.io/pwa-todo)
+
 ## References
 
 - [Getting Start with IndexedDB](https://www.youtube.com/watch?v=g4U5WRzHitM)
