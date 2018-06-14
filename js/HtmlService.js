@@ -2,10 +2,6 @@ const form = document.querySelector('form')
 const ul = document.querySelector('ul')
 
 export default class HtmlService {
-  static init() {
-    this.setSubmitionAction()
-  }
-
   static addToHtmlList(item) {
     const li = document.createElement('li')
     li.textContent = item
@@ -17,17 +13,21 @@ export default class HtmlService {
     input.focus()
   }
 
-  static setSubmitionAction() {
+  static getInputedItem() {
+    // why I'm not using a promise here?
+    // https://stackoverflow.com/questions/33449469/promise-is-only-firing-once
+    return {
+      then: (callback) => this.bindSubmittingAction(callback)
+    }
+  }
+
+  static bindSubmittingAction(callback) {
     const onSubmit = event => {
       event.preventDefault()
-      const item = event.target.item
-
-      TodoService.addItem(item.value).then(() => {
-        addItemToHTML(item.value)
-        cleanInput(item)
-      })
+      const input = event.target.item
+      callback(input.value)
+      this.cleanInput(input)
     }
-
     form.addEventListener('submit', onSubmit)
   }
 }
