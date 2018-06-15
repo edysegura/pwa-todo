@@ -5,7 +5,7 @@ TodoService
   .getList()
   .then(items => items.forEach(HtmlService.addToHtmlList))
 
-const addNewItem = (item) => {
+const addToDB = (item) => {
   TodoService
     .addItem(item)
     .then(() => HtmlService.addToHtmlList(item))
@@ -13,5 +13,5 @@ const addNewItem = (item) => {
 
 HtmlService
   .getInputedItem()
-  .then(addNewItem)
+  .then(addToDB)
 
