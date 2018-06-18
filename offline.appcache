@@ -1,6 +1,7 @@
-
 CACHE MANIFEST
-./css/styles.css
+# v1
+
+./css/style.css
 ./js/HtmlService.js
 ./js/index.js
 ./js/TodoService.js
