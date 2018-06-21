@@ -1,0 +1,22 @@
+{
+  "name": "pwa-todo",
+  "version": "1.0.0",
+  "description": "A simpler webapp To-Do List to demonstrate the PWA concepts with IndexedDB and offline support.",
+  "scripts": {
+    "start": "browser-sync . --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edysegura/pwa-todo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edysegura/pwa-todo/issues"
+  },
+  "homepage": "https://github.com/edysegura/pwa-todo#readme",
+  "devDependencies": {
+    "browser-sync": "^2.24.4"
+  }
+}
