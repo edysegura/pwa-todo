@@ -2,8 +2,15 @@ const form = document.querySelector('form')
 const ul = document.querySelector('ul')
 
 export default class HtmlService {
+
+  static toggleDone(event) {
+    const li = event.target
+    li.classList.toggle('done')
+  }
+
   static addToHtmlList(item) {
     const li = document.createElement('li')
+    li.addEventListener('click', HtmlService.toggleDone)
     li.textContent = item
     ul.appendChild(li)
   }
