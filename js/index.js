@@ -15,3 +15,6 @@ HtmlService
   .getInputedItem()
   .then(addToDB)
 
+navigator.serviceWorker
+  .register('sw.js')
+  .then(() => console.info('Service worker registered!'))
