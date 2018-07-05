@@ -2,7 +2,6 @@ const form = document.querySelector('form')
 const ul = document.querySelector('ul')
 
 export default class HtmlService {
-
   static toggleDone(event) {
     const li = event.target
     li.classList.toggle('done')
@@ -10,8 +9,14 @@ export default class HtmlService {
 
   static addToHtmlList(item) {
     const li = document.createElement('li')
+
     li.addEventListener('click', HtmlService.toggleDone)
-    li.textContent = item
+    li.textContent = item.description
+
+    if (item.done) {
+      li.classList.add('done')
+    }
+
     ul.appendChild(li)
   }
 
@@ -24,7 +29,7 @@ export default class HtmlService {
     // why I'm not using a promise here?
     // https://stackoverflow.com/questions/33449469/promise-is-only-firing-once
     return {
-      then: (callback) => this.bindSubmittingAction(callback)
+      then: callback => this.bindSubmittingAction(callback)
     }
   }
 

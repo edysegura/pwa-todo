@@ -1,12 +1,12 @@
 let dbInstance
 const dbName = 'todoStore'
 const osName = 'todos'
-const version = 1
+const version = 2
 
 export default class TodoService {
   static upgradeDB(db) {
     console.info('Creating database')
-    db.createObjectStore('todos', { autoIncrement: true })
+    db.createObjectStore('todos', { keyPath: 'id', autoIncrement: true })
   }
 
   static openDB(resolve, reject) {
