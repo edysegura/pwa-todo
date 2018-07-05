@@ -5,12 +5,12 @@ TodoService
   .getList()
   .then(items => items.forEach(HtmlService.addToHtmlList))
 
-const saveNewItem = (description) => {
+const saveNewItem = description => {
   const newItem = { done:false, description }
 
   TodoService
     .saveItem(newItem)
-    .then((savedItem) => HtmlService.addToHtmlList(savedItem))
+    .then(savedItem => HtmlService.addToHtmlList(savedItem))
 }
 
 HtmlService
