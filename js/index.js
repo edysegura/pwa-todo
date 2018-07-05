@@ -5,17 +5,17 @@ TodoService
   .getList()
   .then(items => items.forEach(HtmlService.addToHtmlList))
 
-const addToDB = (description) => {
+const saveNewItem = (description) => {
   const newItem = { done:false, description }
 
   TodoService
-    .addItem(newItem)
-    .then(() => HtmlService.addToHtmlList(newItem))
+    .saveItem(newItem)
+    .then((savedItem) => HtmlService.addToHtmlList(savedItem))
 }
 
 HtmlService
   .getInputedItem()
-  .then(addToDB)
+  .then(saveNewItem)
 
 navigator.serviceWorker
   .register('sw.js')

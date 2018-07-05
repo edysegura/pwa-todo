@@ -37,7 +37,7 @@ export default class TodoService {
   }
 
   static getTodosStore(mode) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.getDB().then(db => {
         const store = db
           .transaction(osName, mode)
@@ -47,11 +47,16 @@ export default class TodoService {
     })
   }
 
-  static addItem(item) {
+  static saveItem(item) {
+    const addSavedIdToItem = id => {
+      item.id = id
+      return item
+    }
+
     return new Promise((resolve, reject) => {
       const addItemInStore = todosStore => {
         const request = todosStore.put(item)
-        request.onsuccess = event => resolve(event.target.result)
+        request.onsuccess = event => resolve(addSavedIdToItem(event.target.result))
         request.onerror = event => reject(event.target.result)
       }
       this.getTodosStore('readwrite').then(addItemInStore)
