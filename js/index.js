@@ -6,8 +6,7 @@ TodoService
   .then(items => items.forEach(HtmlService.addToHtmlList))
 
 const saveNewItem = description => {
-  const newItem = { done:false, description }
-
+  const newItem = { 'done': false, description }
   TodoService
     .saveItem(newItem)
     .then(savedItem => HtmlService.addToHtmlList(savedItem))
@@ -16,6 +15,10 @@ const saveNewItem = description => {
 HtmlService
   .getInputedItem()
   .then(saveNewItem)
+
+HtmlService
+  .getClickedItem()
+  .then(item => console.log(item))
 
 navigator.serviceWorker
   .register('sw.js')
