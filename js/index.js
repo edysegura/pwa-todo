@@ -12,13 +12,19 @@ const saveNewItem = description => {
     .then(savedItem => HtmlService.addToHtmlList(savedItem))
 }
 
+const updateItem = item => {
+  TodoService
+    .saveItem(item)
+    .then(() => console.info(`Item ${ item.description } was saved!`))
+}
+
 HtmlService
   .getInputedItem()
   .then(saveNewItem)
 
 HtmlService
   .getClickedItem()
-  .then(item => console.log(item))
+  .then(updateItem)
 
 navigator.serviceWorker
   .register('sw.js')
