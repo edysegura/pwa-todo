@@ -1,17 +1,22 @@
 const form = document.querySelector('form')
 const ul = document.querySelector('ul')
-let itemClickEmitter
+const className = 'done'
+
+let itemClickEmitter = () => {}
 
 export default class HtmlService {
+  static createItem(li) {
+    return {
+      id: +li.getAttribute('data-item-id'),
+      done: li.classList.contains(className),
+      description: li.textContent
+    }
+  }
+
   static toggleDone(event) {
-    const className = 'done'
     const li = event.target
     li.classList.toggle(className)
-    itemClickEmitter && itemClickEmitter({
-      'id': +li.getAttribute('data-item-id'),
-      'done': li.classList.contains(className),
-      'description': li.textContent
-    })
+    itemClickEmitter(HtmlService.createItem(li))
   }
 
   static addToHtmlList(item) {
