@@ -69,7 +69,7 @@ export default class TodoService {
         const items = []
         const request = todosStore.openCursor()
 
-        const addItem = event => {
+        const fetchItem = event => {
           const cursor = event.target.result
           if (cursor) {
             items.push(cursor.value)
@@ -79,7 +79,7 @@ export default class TodoService {
           }
         }
 
-        request.addEventListener('success', addItem)
+        request.onsuccess = fetchItem
       })
     })
   }
