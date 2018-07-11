@@ -1,6 +1,6 @@
 # PWA Todo List
 
-A simpler webapp To-Do List to demonstrate the PWA concepts with IndexedDB and offline support.
+A simpler webapp To-Do List to demonstrate the PWA concepts with IndexedDB, Service Workers and offline support.
 
 ## Live demo
 
