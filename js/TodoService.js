@@ -69,22 +69,26 @@ export default class TodoService {
 
   static getList() {
     return new Promise((resolve, reject) => {
-      this.getTodosStore('readonly').then(todosStore => {
-        const items = []
-        const request = todosStore.openCursor()
+      const items = []
 
-        const fetchItem = event => {
-          const cursor = event.target.result
-          if (cursor) {
-            items.push(cursor.value)
-            cursor.continue()
-          } else {
-            resolve(items)
-          }
+      const fetchItem = event => {
+        const cursor = event.target.result
+        if (cursor) {
+          items.push(cursor.value)
+          cursor.continue()
+        } else {
+          resolve(items)
         }
+      }
 
+      const fetchAllItems = todosStore => {
+        const request = todosStore.openCursor()
         request.onsuccess = fetchItem
-      })
+        request.onerror = event => reject(event.target.result)
+      }
+
+      this.getTodosStore('readonly')
+        .then(fetchAllItems)
     })
   }
 }
