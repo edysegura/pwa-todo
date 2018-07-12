@@ -6,7 +6,7 @@ const version = 3
 export default class TodoService {
   static upgradeDB(db) {
     console.info('Creating database ...')
-    if(!db.objectStoreNames.contains(osName)) {
+    if (!db.objectStoreNames.contains(osName)) {
       db.createObjectStore(osName, { keyPath: 'id', autoIncrement: true })
     }
   }
@@ -56,12 +56,14 @@ export default class TodoService {
     }
 
     return new Promise((resolve, reject) => {
-      const addItemInStore = todosStore => {
+      const addItemIntoStore = todosStore => {
         const request = todosStore.put(item)
         request.onsuccess = event => resolve(addSavedIdToItem(event.target.result))
         request.onerror = event => reject(event.target.result)
       }
-      this.getTodosStore('readwrite').then(addItemInStore)
+
+      this.getTodosStore('readwrite')
+        .then(addItemIntoStore)
     })
   }
 
