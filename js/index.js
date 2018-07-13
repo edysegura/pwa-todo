@@ -5,17 +5,21 @@ TodoService
   .getList()
   .then(items => items.forEach(HtmlService.addToHtmlList))
 
+const saveItem = (item, action) => {
+  TodoService
+    .saveItem(item)
+    .then(action)
+}
+
 const saveNewItem = description => {
   const newItem = { 'done': false, description }
-  TodoService
-    .saveItem(newItem)
-    .then(savedItem => HtmlService.addToHtmlList(savedItem))
+  const action = savedItem => HtmlService.addToHtmlList(savedItem)
+  saveItem(newItem, action)
 }
 
 const updateItem = item => {
-  TodoService
-    .saveItem(item)
-    .then(() => console.info(`Item ${ item.description } was saved!`))
+  const action = () => console.info(`Item ${ item.description } was saved!`)
+  saveItem(item, action)
 }
 
 HtmlService
