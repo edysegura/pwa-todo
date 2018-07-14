@@ -30,6 +30,10 @@ HtmlService
   .getClickedItem()
   .then(updateItem)
 
+HtmlService
+  .getClickedButton()
+  .then(itemId => console.log(`Deleting item id: ${itemId}`))
+
 navigator.serviceWorker
   .register('sw.js')
   .then(() => console.info('Service worker registered!'))
