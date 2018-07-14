@@ -16,7 +16,7 @@ export default class HtmlService {
   }
 
   static toggleDone(event) {
-    const li = event.target
+    const li = event.currentTarget
     li.classList.toggle(className)
     itemClickEmitter(HtmlService.createItem(li))
   }

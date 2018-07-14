@@ -37,8 +37,19 @@ li {
   padding: 20px;
   border-bottom: solid 1px #ddd;
   cursor: pointer;
+  display: flex;
 }
 
-.done {
+li > span {
+  flex: 1
+}
+
+li > button {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.done > span {
   text-decoration: line-through;
 }
