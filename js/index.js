@@ -32,7 +32,10 @@ HtmlService
 
 HtmlService
   .getClickedButton()
-  .then(itemId => console.log(`Deleting item id: ${itemId}`))
+  .then(itemId => {
+    console.log(`Deleting item id: ${itemId}`)
+    //HtmlService.removeFromHtmlList(itemId)
+  })
 
 navigator.serviceWorker
   .register('sw.js')

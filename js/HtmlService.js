@@ -51,6 +51,11 @@ export default class HtmlService {
     ul.appendChild(li)
   }
 
+  static removeFromHtmlList(itemId) {
+    const li = document.querySelector(`[data-item-id='${itemId}']`)
+    ul.removeChild(li)
+  }
+
   static cleanInput(input) {
     input.value = ''
     input.focus()
