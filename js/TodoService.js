@@ -67,6 +67,19 @@ export default class TodoService {
     })
   }
 
+  static deleteItem(itemId) {
+    return new Promise((resolve, reject) => {
+      const deleteItemFromStore = todosStore => {
+        const request = todosStore.delete(+itemId)
+        request.onsuccess = event => resolve(itemId)
+        request.onerror = event => reject(event.target.result)
+      }
+
+      this.getTodosStore('readwrite')
+        .then(deleteItemFromStore)
+    })
+  }
+
   static getList() {
     return new Promise((resolve, reject) => {
       const items = []

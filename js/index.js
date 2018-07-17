@@ -22,6 +22,12 @@ const updateItem = item => {
   saveItem(item, action)
 }
 
+const deleteItem = itemId => {
+  TodoService
+    .deleteItem(itemId)
+    .then(HtmlService.removeFromHtmlList)
+}
+
 HtmlService
   .getInputedItem()
   .then(saveNewItem)
@@ -32,10 +38,7 @@ HtmlService
 
 HtmlService
   .getClickedButton()
-  .then(itemId => {
-    console.log(`Deleting item id: ${itemId}`)
-    //HtmlService.removeFromHtmlList(itemId)
-  })
+  .then(deleteItem)
 
 navigator.serviceWorker
   .register('sw.js')
