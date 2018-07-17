@@ -46,8 +46,9 @@ li > span {
 
 li > button {
   background: none;
-  border: none;
-  outline: none;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
 }
 
 .done > span {
