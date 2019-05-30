@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A simpler webapp To-Do List to demonstrate the PWA concepts with IndexedDB and offline support.",
   "scripts": {
-    "start": "browser-sync . --watch"
+    "start": "live-server . --open"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/edysegura/pwa-todo#readme",
   "devDependencies": {
-    "browser-sync": "^2.24.4"
+    "live-server": "^1.2.1"
   }
 }
