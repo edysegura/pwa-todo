@@ -29,7 +29,7 @@ const deleteItem = itemId => {
 }
 
 HtmlService
-  .getInputedItem()
+  .getInputtedItem()
   .then(saveNewItem)
 
 HtmlService

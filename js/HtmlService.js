@@ -85,7 +85,7 @@ export default class HtmlService {
     buttonClickEmitter = callback
   }
 
-  static getInputedItem() {
+  static getInputtedItem() {
     // why I'm not using a promise here?
     // https://stackoverflow.com/questions/33449469/promise-is-only-firing-once
     return {
