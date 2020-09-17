@@ -4,7 +4,7 @@ A simpler webapp To-Do List to demonstrate the PWA concepts with IndexedDB, Serv
 
 ## Live demo
 
-- [http://edysegura.github.io/pwa-todo](http://edysegura.github.io/pwa-todo)
+- [https://edysegura.github.io/pwa-todo](https://edysegura.github.io/pwa-todo)
 
 ## References
 
