@@ -1,7 +1,5 @@
-const DONE = 'done';
-
+const doneCssClass = 'done';
 export default class HtmlService {
-
   constructor(todoService) {
     this.todoService = todoService;
     this.bindFormEvent();
@@ -9,12 +7,13 @@ export default class HtmlService {
   }
 
   bindFormEvent() {
-    const form = document.querySelector('form');
-    form.addEventListener('submit', event => {
+    const form = document.querySelector("form");
+    form.addEventListener("submit", (event) => {
       event.preventDefault();
       this.addTask(form.item.value);
       form.reset();
-    })
+      form.item.focus();
+    });
   }
 
   async addTask(description) {
@@ -26,48 +25,45 @@ export default class HtmlService {
 
   async listTasks() {
     const tasks = await this.todoService.getAll();
-    tasks.forEach(task => this.addToHtmlList(task));
+    tasks.forEach((task) => this.addToHtmlList(task));
+  }
+
+  async deleteTask(taskId, li) {
+    await this.todoService.delete(taskId);
+    li.remove();
   }
 
   async saveTask(taskId, isDone) {
     const task = await this.todoService.get(taskId);
     task.done = isDone;
-    this.todoService.save(task);
+    await this.todoService.save(task);
   }
 
-  toggleTask(li) {
-    const taskId = +li.getAttribute('data-item-id');
-    li.classList.toggle(DONE);
-    const isDone = li.classList.contains(DONE);
+  toggleTask(li, taskId) {
+    li.classList.toggle(doneCssClass);
+    const isDone = li.classList.contains(doneCssClass);
     this.saveTask(taskId, isDone);
   }
 
-  async deleteTask(li) {
-    const taskId = +li.getAttribute('data-item-id');
-    await this.todoService.delete(taskId);
-    li.remove();
-  }
-
   addToHtmlList(task) {
-    const ul = document.querySelector('ul');
-    const li = document.createElement('li');
-    const span = document.createElement('span');
-    const button = document.createElement('button');
+    const ul = document.querySelector("ul");
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    const button = document.createElement("button");
 
-    li.setAttribute('data-item-id', task.id);
-    li.addEventListener('click', () => this.toggleTask(li));
+    li.addEventListener("click", () => this.toggleTask(li, task.id));
+
+    if (task.done) {
+      li.classList.add(doneCssClass);
+    }
 
     span.textContent = task.description;
 
-    button.textContent = 'x';
-    button.addEventListener('click', event => {
+    button.textContent = "x";
+    button.addEventListener("click", (event) => {
       event.stopPropagation();
-      this.deleteTask(li);
+      this.deleteTask(task.id, li);
     });
-
-    if (task.done) {
-      li.classList.add(DONE);
-    }
 
     li.appendChild(span);
     li.appendChild(button);

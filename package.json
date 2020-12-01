@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "http-server -c-1 -p 9000"
+    "start": "http-server -c-1 -p 3000"
   },
   "dependencies": {
     "http-server": "^0.12.3"

@@ -1,25 +1,23 @@
-import HtmlService from './HtmlService.js';
-import TodoService from './TodoService.js';
+import HtmlService from "./HtmlService.js";
+import TodoService from "./TodoService.js";
 
 class App {
-
   constructor() {
     this.registerServiceWorker();
-    this.start();
+    this.initialize();
   }
 
-  start() {
-    const todoService = new TodoService();
-    new HtmlService(todoService);
+  initialize() {
+    new HtmlService(new TodoService());
   }
 
   registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      const onsuccess = () => console.log('[Service Worker] Registered');
-      const onfailure = () => console.log('[Service Worker] Failed');
+    if ("serviceWorker" in navigator) {
+      const onsuccess = () => console.log("[Service Worker] Registered");
+      const onfailure = () => console.log("[Service Worker] Failed");
 
       navigator.serviceWorker
-        .register('sw.js')
+        .register("sw.js")
         .then(onsuccess)
         .catch(onfailure);
     }
