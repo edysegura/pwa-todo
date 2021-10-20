@@ -7,8 +7,8 @@ export default class HtmlService {
   }
 
   bindFormEvent() {
-    const form = document.querySelector("form");
-    form.addEventListener("submit", (event) => {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (event) => {
       event.preventDefault();
       this.addTask(form.item.value);
       form.reset();
@@ -46,12 +46,12 @@ export default class HtmlService {
   }
 
   addToHtmlList(task) {
-    const ul = document.querySelector("ul");
-    const li = document.createElement("li");
-    const span = document.createElement("span");
-    const button = document.createElement("button");
+    const ul = document.querySelector('ul');
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+    const button = document.createElement('button');
 
-    li.addEventListener("click", () => this.toggleTask(li, task.id));
+    li.addEventListener('click', () => this.toggleTask(li, task.id));
 
     if (task.done) {
       li.classList.add(doneCssClass);
@@ -59,8 +59,8 @@ export default class HtmlService {
 
     span.textContent = task.description;
 
-    button.textContent = "x";
-    button.addEventListener("click", (event) => {
+    button.textContent = 'x';
+    button.addEventListener('click', (event) => {
       event.stopPropagation();
       this.deleteTask(task.id, li);
     });

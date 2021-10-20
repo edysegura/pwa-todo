@@ -14,7 +14,7 @@ const assetsToCache = [
   './assets/js/app.js',
   './favicon.ico',
   './index.html',
-  './'
+  './',
 ];
 
 function removeOldCache(key) {
@@ -34,13 +34,13 @@ async function cacheStaticAssets() {
   return cache.addAll(assetsToCache);
 }
 
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   console.log('[Service Worker] Installing Service Worker...', event);
   event.waitUntil(cacheStaticAssets());
   self.skipWaiting();
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   console.log('[Service Worker] Activating Service Worker...', event);
   event.waitUntil(cacheCleanup());
   return self.clients.claim();
@@ -65,7 +65,6 @@ async function cacheFirst(request) {
   }
 }
 
-self.addEventListener('fetch', event => {
-  // console.log('[Service Worker] Fetch event: ' + event.request.url);
+self.addEventListener('fetch', (event) => {
   event.respondWith(cacheFirst(event.request));
 });
