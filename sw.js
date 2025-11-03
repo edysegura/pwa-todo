@@ -1,5 +1,3 @@
-import { mockProfileAPI } from "./src/js/mock-api.js";
-
 const cacheName = "app-shell-v4";
 const assetsToCache = [
   "https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css",
