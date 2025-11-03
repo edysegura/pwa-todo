@@ -1,25 +1,53 @@
-const cacheName = 'app-shell-v6';
+import { mockProfileAPI } from "./src/js/mock-api.js";
+
+const cacheName = "app-shell-v4";
 const assetsToCache = [
-  'https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css',
-  'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
-  'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2',
-  'https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.mjs',
-  'https://fonts.googleapis.com/css?family=Roboto:400,700',
-  'https://fonts.googleapis.com/icon?family=Material+Icons',
-  './assets/images/pwa-logo.png',
-  './assets/js/material.min.js',
-  './assets/js/HtmlService.js',
-  './assets/js/TodoService.js',
-  './assets/css/style.css',
-  './assets/js/app.js',
-  './favicon.ico',
-  './index.html',
-  './',
+  "https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-pink.min.css",
+  "https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2",
+  "https://fonts.gstatic.com/s/roboto/v49/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2",
+  "https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2",
+  "https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2",
+  "https://fonts.googleapis.com/css?family=Roboto:400,700",
+  "https://fonts.googleapis.com/icon?family=Material+Icons",
+  "src/assets/images/pwa-logo.png",
+  "src/assets/images/offline.svg",
+  "src/assets/images/cat.jpg",
+  "src/assets/js/material.min.js",
+  "src/css/style.css",
+  "src/js/app.js",
+  "src/js/mock-api.js",
+  "src/offline.html",
+  "favicon.ico",
+  "index.html",
+  "/",
 ];
 
-function removeOldCache(key) {
+self.addEventListener("install", (event) => {
+  console.log(`👁️ [sw.js] installing static assets...`);
+  self.skipWaiting();
+  event.waitUntil(cacheStaticAssets());
+});
+
+self.addEventListener("activate", (event) => {
+  console.log(`👁️ [sw.js] activated`);
+  event.waitUntil(cacheCleanup());
+  self.clients.claim();
+});
+
+self.addEventListener("fetch", (event) => {
+  const request = event.request;
+  console.log(`👁️ [sw.js] request: ${request.url}`);
+  event.respondWith(proxy(request));
+});
+
+async function cacheStaticAssets() {
+  const cache = await caches.open(cacheName);
+  return cache.addAll(assetsToCache);
+}
+
+async function removeOldCache(key) {
   if (key !== cacheName) {
-    console.log(`[Service Worker] Removing old cache: ${key}`);
+    console.log(`👁️ [sw.js] removing old cache: ${key}`);
     return caches.delete(key);
   }
 }
@@ -29,42 +57,21 @@ async function cacheCleanup() {
   return Promise.all(keyList.map(removeOldCache));
 }
 
-async function cacheStaticAssets() {
-  const cache = await caches.open(cacheName);
-  return cache.addAll(assetsToCache);
+async function proxy(request) {
+  console.log(`👁️ [sw.js] proxying...`);
+  const url = new URL(request.url);
+  return networkFirst(request);
 }
-
-self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing Service Worker...', event);
-  event.waitUntil(cacheStaticAssets());
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating Service Worker...', event);
-  event.waitUntil(cacheCleanup());
-  return self.clients.claim();
-});
 
 async function networkFirst(request) {
   try {
     return await fetch(request);
   } catch (error) {
     const cache = await caches.open(cacheName);
-    return cache.match(request);
+    const responseCached = await cache.match(request.url);
+    if (!responseCached && request.headers.get("accept").startsWith("image/")) {
+      return cache.match("src/assets/images/offline.svg");
+    }
+    return cache.match(request.url);
   }
 }
-
-async function cacheFirst(request) {
-  try {
-    const cache = await caches.open(cacheName);
-    const response = await cache.match(request);
-    return response || fetch(request);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-self.addEventListener('fetch', (event) => {
-  event.respondWith(cacheFirst(event.request));
-});
